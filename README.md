@@ -1,84 +1,61 @@
-# Fly-Beat-Minecraft
+# Fly-Says-Hello-To-Their-Neighbor
 
-An agent whose control core is a simulation of a **real fly brain** — a real
-Drosophila connectome, the kind of data hosted at
-[virtualflybrain.org](https://www.virtualflybrain.org/) — wired up to pilot a
-Minecraft bot. The end goal: kill the Ender Dragon.
+do you see that fly over there?
 
-## The honest pitch
 
-A real fly brain, however faithfully simulated, has no capacity for multi-hour
-planning, crafting trees, or "go find a stronghold." A fly's brain evolved for
-flight, feeding, courtship, and escape reflexes — not Minecraft progression.
-No amount of simulation fidelity changes that.
+yeah, the one going around your food?
 
-So this project is a **hybrid**:
 
-- **The real connectome is the reflexive/sensorimotor core.** It handles
-  moment-to-moment control: walking, turning, obstacle and threat response,
-  target pursuit and attack. The neuron identities and synapse weights/signs
-  come straight from real connectome data and are not touched by training.
-- **A separate, explicitly non-biological task manager handles long-horizon
-  sequencing** — what to mine, when to craft, where to go, when to fight the
-  dragon. This part makes no claim to be biologically real; it's a planner
-  that uses the fly brain as its "motor cortex."
+imagine that, but in hello neighbor.
 
-This is called out up front rather than overselling "the fly beats the game
-unaided" — it doesn't, and no real fly could.
 
-## Architecture
+## a basic overview
 
-```
-Minecraft server (local, vanilla/Paper)
-        |
-   bot-bridge/  (Node.js, mineflayer)
-     - connects a bot to the server
-     - exposes a WebSocket JSON API: getObservation(), doAction()
-        |  (WebSocket, localhost)
-        v
-   brain/  (Python)
-     agent/task_manager.py   <- non-biological planner: subgoal stack
-                                 (wood -> stone -> iron -> diamond ->
-                                  nether -> find stronghold -> kill dragon)
-     agent/loop.py           <- real-time control loop
-        |
-        v  (task manager biases which sensory channels are "hot")
-     interface/sensory_encoder.py  <- trainable: game state -> injected
-                                       current into input neuron pools
-     connectome/ (graph.py, fetch_hemibrain.py)  <- real hemibrain weighted
-                                                     graph (fixed, not trained)
-     sim/lif.py               <- leaky-integrate-and-fire sim over that graph
-     interface/motor_decoder.py    <- trainable: descending-neuron firing
-                                       rates -> discrete Minecraft actions
-     training/train_interface.py  <- evolution-strategy training of the
-                                       encoder + decoder
-```
+the fly is hunting their food, sure
 
-See [docs/architecture.md](docs/architecture.md) for the full technical design.
 
-## What's real biology vs. engineered
+but can a fly hunt down *the player*?
 
-| Piece | Real / fixed | Engineered / trained |
-|---|---|---|
-| Neuron identities, synapse weights & signs | ✅ from the hemibrain connectome | |
-| Spiking dynamics (leaky-integrate-and-fire) | ✅ standard neuroscience model | |
-| Sensory encoder (game state → current injection) | | ✅ trained |
-| Motor decoder (firing rates → actions) | | ✅ trained |
-| Task manager (crafting/progression logic) | | ✅ scripted/engineered |
 
-## Repo layout
+the fly will do the following:
 
-```
-bot-bridge/     Node.js — mineflayer bot + WebSocket bridge to the brain
-brain/          Python — connectome, spiking sim, encoder/decoder, task manager, training
-data/           cached connectome data (gitignored)
-docs/           architecture and design notes
-scripts/        setup helpers (e.g. starting a local test server)
-```
 
-## Status
+- become the neighbor
+- hunt down the player
+- get rewarded when catching the player
+- learn from it's actions
+- repeat
 
-Early scaffold. See [docs/architecture.md](docs/architecture.md) for the
-milestone roadmap (M0 scaffold → M1 bot-bridge → M2 connectome pipeline →
-M3 standalone simulator → M4 wire brain to bot → M5 train the interface →
-M6 task manager → M7 scale + go for the dragon).
+
+## but how?
+
+
+this repository is a fork of <a href=https://github.com/guruchamp-vol2/Fly-Beat-MInecraft>Fly-Beat-MInecraft</a>, and uses it's base code. thanks to my w friend <a href=https://github.com/guruchamp-vol2>guruchamp-vol2</a>, who set this whole thing up.
+
+
+now, we connect hello neighbor to a simulated drosophila, a fruit fly. we need a couple of things,
+
+- **the brain itself** to simulate the fly
+- **hello neighbor running** to give the fly an environment + to see the fly in action
+- **a neighbor** not the one you see, a new one. one that represents the fly, so that mr. peterson can go to therapy in the meantime
+- **a bridge** to bring the 2 together. it will translate the fly actions to hello neighbor
+
+## current stage + problems?
+
+current stage: ideas and tinkering with the original repo
+
+
+
+current problem: the entire thing.
+
+
+
+# credits!
+
+thanks to...
+
+
+<a href=https://github.com/guruchamp-vol2>guruchamp-vol2</a>! for making the base
+tinybuild, for making the game itself
+you! for reading this
+*i would credit myself, but that'd seem narcisstic.*
