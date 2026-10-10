@@ -56,6 +56,10 @@ thanks to...
 
 
 <a href=https://github.com/guruchamp-vol2>guruchamp-vol2</a>! for making the base
+
+
 tinybuild, for making the game itself
+
+
 you! for reading this
 *i would credit myself, but that'd seem narcisstic.*
